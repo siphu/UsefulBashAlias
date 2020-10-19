@@ -1,2 +1,2 @@
 ### Installation
-`wget https://raw.githubusercontent.com/siphu/UsefulBashAlias/main/install.sh | sh`
+`sh -c "$(wget -O- https://raw.githubusercontent.com/siphu/UsefulBashAlias/main/install.sh )"`
