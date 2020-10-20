@@ -1,3 +1,39 @@
 #!/bin/sh
 
-## basher file
+command=$1
+library=$2
+
+basher=`basename $0`
+
+install()
+{
+	echo "installing $library"
+
+}
+
+uninstall()
+{
+	echo "uninstall $ll"
+}
+
+help()
+{
+	echo ""
+	echo "Usage: $basher install|remove pkg1 [pkg2 ...]"
+	echo ""
+	echo "$basher is a command line interface for retrieval of packages"
+	echo ""
+	echo "commands:"
+	echo "  install - Install new packages"
+	echo "  remove - Remove packages"
+}
+
+main()
+{
+	case "$command" in
+			-i | --install | install ) install ;;
+			-r | --remove | remove ) uninstall ;;
+			* ) help ;;
+	esac
+}
+main
