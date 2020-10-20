@@ -1,20 +1,27 @@
 #!/bin/sh
+#####
+#
+# This script downloads basher and places it a new $PATH location
+# This can be ran via -
+#
+# wget -
+# 	source <(wget -O- https://raw.githubusercontent.com/siphu/basher/develop/install.sh)
+# Curl
+# 	source <(curl -fsSL https://raw.githubusercontent.com/siphu/basher/develop/install.sh)
 
-# location to where the basher executable and config will be stored
-destination="$HOME/.basher"
-
-# script name
-basher="$destination/basher"
-
-# source repo (raw content)
-sourceGit="https://raw.githubusercontent.com/siphu/basher/develop"
 
 
+#default settings
+destination="$HOME/.basher"   # folder where .basher will install to
+basher="$destination/basher"  # script name
+sourceGit="https://raw.githubusercontent.com/siphu/basher/develop" # source repo (raw content)
+
+
+#testing purpose
 rm -rf "$destination"
 
-main() {
 
-	setup_color
+main() {
 
 	# create the folder
 	mkdir -p "$destination"
@@ -22,9 +29,10 @@ main() {
 	bashUrl="$sourceGit/bin/basher"
 	result=`wget -q -S --spider $bashUrl  2>&1`
 
-	if  validateUrl $bashUrl; then
-		downloadBasher $bashUrl
-		injectRC
+	if  validate_url $bashUrl; then
+		download_basher $bashUrl
+		inject_rc
+		echo "Basher installed at: $basher"
 	else
 		echo "ERROR: Unable to find basher source file"
 		exit 1
@@ -33,61 +41,32 @@ main() {
 
 }
 
-setup_color() {
-	# Only use colors if connected to a terminal
-	if [ -t 1 ]; then
-		RED=$(printf '\033[31m')
-		GREEN=$(printf '\033[32m')
-		YELLOW=$(printf '\033[33m')
-		BLUE=$(printf '\033[34m')
-		BOLD=$(printf '\033[1m')
-		RESET=$(printf '\033[m')
-	else
-		RED=""
-		GREEN=""
-		YELLOW=""
-		BLUE=""
-		BOLD=""
-		RESET=""
-	fi
-}
-
-
-error() {
-	echo ${RED}"Error: $@"${RESET} >&2
-}
-
-
-validateUrl() {
+validate_url() {
   if curl --output /dev/null --silent --head --fail "$1"
   	then return 0
 	else return 1
   fi
 }
 
-
-downloadBasher()
+download_basher()
 {
 	wget -q "$1" -O "$basher"
 	chmod +x "$basher"
 }
 
-
-injectRC()
+inject_rc()
 {
 	exportPath="export PATH=\$PATH:$destination"
-
 	rcFiles="$HOME/.zshrc $HOME/.bash_profile $HOME/.bashrc $HOME/.profile"
 
 	for i in $rcFiles
 	do
 		if [ -f $i ]; then
-			if grep -Fxq "$exportPath" $i
+			if ! grep -Fxq "$exportPath" $i
 			then
-				echo -e "\n$exportPath\n" >> $i
+				echo "\n$exportPath\n" >> $i
+				export PATH=$PATH:$destination
 			fi
-			export PATH=$PATH:$destination
-			export PHU=TEST10
 			break
 		fi
 	done
