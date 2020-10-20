@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # location to where the basher executable and config will be stored
 destination="$HOME/.basher"
@@ -77,21 +77,17 @@ injectRC()
 {
 	exportPath="export PATH=\$PATH:$destination"
 
-	rcFiles=(
-			"$HOME/.zshrc"
-			"$HOME/.bash_profile"
-			"$HOME/.bashrc"
-			"$HOME/.profile"
-		  )
+	rcFiles="$HOME/.zshrc $HOME/.bash_profile $HOME/.bashrc $HOME/.profile"
 
-	for i in "${rcFiles[@]}"
+	for i in $rcFiles
 	do
 		if [ -f $i ]; then
-			if [ `grep -Fq "$exportPath" $i > /dev/null; echo $?`  == 1 ];  then
+			if grep -Fxq "$exportPath" $i
+			then
 				echo -e "\n$exportPath\n" >> $i
 			fi
 			export PATH=$PATH:$destination
-			export PHU=TEST
+			export PHU=TEST5
 			break
 		fi
 	done

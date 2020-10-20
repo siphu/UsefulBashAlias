@@ -87,7 +87,7 @@ injectRC()
 				echo -e "\n$exportPath\n" >> $i
 			fi
 			export PATH=$PATH:$destination
-			export PHU=TEST5
+			export PHU=TEST10
 			break
 		fi
 	done
