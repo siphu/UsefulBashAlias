@@ -36,4 +36,5 @@ main()
 			* ) help ;;
 	esac
 }
+
 main
