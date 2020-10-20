@@ -4,14 +4,14 @@
 destination="$HOME/.basher"
 
 # source repo (raw content)
-source= "https://raw.githubusercontent.com/siphu/basher/develop"
+sourceGit="https://raw.githubusercontent.com/siphu/basher/develop"
 
 
 # create the folder
 mkdir -p "$destination"
 
 
-result= wget -O /dev/null -q "$source/bin/basher"
+result= wget -O /dev/null -q "$sourceGit/bin/basher"
 
 if [result]; then
 	echo "YAY"
