@@ -14,6 +14,7 @@ rm -rf "$destination"
 
 main() {
 
+	setup_color
 
 	# create the folder
 	mkdir -p "$destination"
@@ -30,29 +31,52 @@ main() {
 	fi
 
 
+}
 
-
+setup_color() {
+	# Only use colors if connected to a terminal
+	if [ -t 1 ]; then
+		RED=$(printf '\033[31m')
+		GREEN=$(printf '\033[32m')
+		YELLOW=$(printf '\033[33m')
+		BLUE=$(printf '\033[34m')
+		BOLD=$(printf '\033[1m')
+		RESET=$(printf '\033[m')
+	else
+		RED=""
+		GREEN=""
+		YELLOW=""
+		BLUE=""
+		BOLD=""
+		RESET=""
+	fi
 }
 
 
-function validateUrl() {
-  if [[ `wget -S --spider $1  2>&1 | grep 'HTTP/1.1 200 OK'` ]];
+error() {
+	echo ${RED}"Error: $@"${RESET} >&2
+}
+
+
+validateUrl() {
+  if curl --output /dev/null --silent --head --fail "$1"
   	then return 0
 	else return 1
   fi
 }
 
 
-function downloadBasher()
+downloadBasher()
 {
-		wget -q "$1" -O "$basher"
-		chmod +x "$basher"
+	wget -q "$1" -O "$basher"
+	chmod +x "$basher"
 }
 
 
-function injectRC()
+injectRC()
 {
 	exportPath="export PATH=\$PATH:$destination"
+
 	rcFiles=(
 			"$HOME/.zshrc"
 			"$HOME/.bash_profile"
@@ -67,7 +91,7 @@ function injectRC()
 				echo -e "\n$exportPath\n" >> $i
 			fi
 			export PATH=$PATH:$destination
-			echo "PATH=\$PATH:$destination"
+			export PHU=TEST
 			break
 		fi
 	done
