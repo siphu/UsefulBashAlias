@@ -1,10 +1,10 @@
 install()
 {
-  if [ -f /home/$USER/.bash_aliases ]; then
-      touch /home/$USER/.bash_aliases
+  if [ -f $HOME/.bash_aliases ]; then
+      touch $HOME/.bash_aliases
   fi
-  
-  echo 'alias krsub="sudo kill $(sudo lsof -i tcp:52698 | sed -n '2,2 p' | awk '{print $2}')"'  >> /home/$USER/.bash_aliases
+
+  echo 'alias krsub="sudo kill $(sudo lsof -i tcp:52698 | sed -n '2,2 p' | awk '{print $2}')"'  >> $HOME/.bash_aliases
 }
 
 remove()
@@ -17,5 +17,4 @@ case "$1" in
     remove ) remove ;;
     * ) exit 1 ;;
 esac
-
 
