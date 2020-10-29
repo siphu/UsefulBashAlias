@@ -8,8 +8,8 @@ install()
 
 remove()
 {
-  rm -rf /usr/sbin/rmate
-  rm -rf /usr/sbin/rsub
+  rm -rf /usr/bin/rmate
+  rm -rf /usr/bin/rsub
   exit 0
 }
 
