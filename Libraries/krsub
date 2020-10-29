@@ -9,6 +9,7 @@ install()
 
 remove()
 {
+  echo "nothing to remove"
 }
 
 case "$1" in
