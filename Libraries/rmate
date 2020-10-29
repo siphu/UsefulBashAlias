@@ -15,6 +15,6 @@ remove()
 
 case "$1" in
     install ) install ;;
-    remove ) uninstall ;;
+    remove ) remove ;;
     * ) exit 1 ;;
 esac
