@@ -64,7 +64,7 @@ inject_rc()
 		if [ -f $i ]; then
 			if ! grep -Fxq "$exportPath" $i
 			then
-				echo "\n$exportPath\n" >> $i
+				echo "$exportPath" >> $i
 				export PATH=$PATH:$destination
 			fi
 			break
