@@ -2,7 +2,7 @@ install()
 {
   wget https://raw.githubusercontent.com/aurora/rmate/master/rmate -O /usr/bin/rmate
   chmod +x /usr/bin/rmate
-  ln -s /usr/bin/rmate /usr/sbin/rsub
+  ln -s /usr/bin/rmate /usr/bin/rsub
   exit 0
 }
 
