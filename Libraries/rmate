@@ -1,8 +1,8 @@
 install()
 {
-  wget https://raw.githubusercontent.com/aurora/rmate/master/rmate -O /usr/sbin/rmate
-  chmod +x /usr/sbin/rmate
-  ln -s /usr/sbin/rmate /usr/sbin/rsub
+  wget https://raw.githubusercontent.com/aurora/rmate/master/rmate -O /usr/bin/rmate
+  chmod +x /usr/bin/rmate
+  ln -s /usr/bin/rmate /usr/sbin/rsub
   exit 0
 }
 
