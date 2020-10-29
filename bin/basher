@@ -1,14 +1,25 @@
-#!/bin/sh
+#!/bin/bash
+
+if [[ $UID -ne 0 ]]; then
+  sudo -p 'Restarting as root, password: ' bash $0 "$@"
+  exit $?
+fi
 
 command=$1
 library=$2
 
 basher=`basename $0`
 
+default_repo='siphu/basher/develop/Libraries'
+
 install()
 {
 	echo "installing $library"
-
+	source="https://raw.githubusercontent.com/$default_repo/$library"
+	wget $source -O /tmp/basher_install
+	chmod +x /tmp/basher_install
+	$(/tmp/basher_install install)
+	#rm -rf /tmp/basher_install
 }
 
 uninstall()
