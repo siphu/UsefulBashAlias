@@ -1,0 +1,20 @@
+install()
+{
+  wget https://raw.githubusercontent.com/aurora/rmate/master/rmate -O /usr/sbin/rmate
+  chmod +x /usr/sbin/rmate
+  ln -s /usr/sbin/rmate /usr/sbin/rsub
+  exit 0
+}
+
+remove()
+{
+  rm -rf /usr/sbin/rmate
+  rm -rf /usr/sbin/rsub
+  exit 0
+}
+
+case "$1" in
+    install ) install ;;
+    remove ) uninstall ;;
+    * ) exit 1 ;;
+esac
