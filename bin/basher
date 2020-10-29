@@ -24,7 +24,11 @@ install()
 
 uninstall()
 {
-	echo "uninstall $ll"
+	echo "removing $library"
+	source="https://raw.githubusercontent.com/$default_repo/$library"
+	wget $source -O /tmp/basher_install
+	chmod +x /tmp/basher_install
+	$(/tmp/basher_install remove)
 }
 
 help()
