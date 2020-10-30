@@ -1,10 +1,13 @@
+user="${SUDO_USER:-$USER}"
+home="$(eval echo ~$user)"
+
 install()
 {
-  if [ -f $HOME/.bash_aliases ]; then
-      touch $HOME/.bash_aliases
+  if [ -f $home/.bash_aliases ]; then
+      touch $home/.bash_aliases
   fi
 
-cat >> $HOME/.bash_aliases <<EOF
+cat >> $home/.bash_aliases <<EOF
 alias kmate="sudo kill \$(sudo lsof -i tcp:52698 | sed -n '2,2 p' | awk '{print \$2}')"
 alias krsub="sudo kill \$(sudo lsof -i tcp:52698 | sed -n '2,2 p' | awk '{print \$2}')"
 EOF
