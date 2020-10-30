@@ -3,7 +3,7 @@ home="$(eval echo ~$user)"
 
 install()
 {
-  if [ -f $home/.bash_aliases ]; then
+  if [ ! -f $home/.bash_aliases ]; then
       touch $home/.bash_aliases
       chown $user:$user $home/.bash_aliases
   fi
