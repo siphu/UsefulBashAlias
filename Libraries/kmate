@@ -5,6 +5,7 @@ install()
 {
   if [ -f $home/.bash_aliases ]; then
       touch $home/.bash_aliases
+      chown $user:$user $home/.bash_aliases
   fi
 
 cat >> $home/.bash_aliases <<EOF
