@@ -16,19 +16,14 @@ install()
 {
 	echo "installing $library"
 	source="https://raw.githubusercontent.com/$default_repo/$library"
-	wget $source -O /tmp/basher_install
-	chmod +x /tmp/basher_install
-	$(/tmp/basher_install install)
-	#rm -rf /tmp/basher_install
+	wget $source -O- /tmp/basher_install | bash -s -- install
 }
 
 uninstall()
 {
 	echo "removing $library"
 	source="https://raw.githubusercontent.com/$default_repo/$library"
-	wget $source -O /tmp/basher_install
-	chmod +x /tmp/basher_install
-	$(/tmp/basher_install remove)
+	wget $source -O- /tmp/basher_install | bash -s -- remove
 }
 
 help()
