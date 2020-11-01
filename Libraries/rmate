@@ -1,6 +1,6 @@
 if [[ $UID -ne 0 ]]; then
-  sudo -p 'Root Password Required: ' bash $0 "$@"
-  exit $?
+  echo "Root Required for this script. Please rerun with sudo"
+  exit 1
 fi
 
 install()
