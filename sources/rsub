@@ -1,1 +1,0 @@
-alias krsub="sudo kill $(sudo lsof -i tcp:52698 | sed -n '2,2 p' | awk '{print $2}')"

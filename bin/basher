@@ -1,0 +1,50 @@
+#!/bin/bash
+
+if [[ $UID -ne 0 ]]; then
+  sudo -p 'Restarting as root, password: ' bash $0 "$@"
+  exit $?
+fi
+
+command=$1
+library=$2
+
+basher=`basename $0`
+
+default_repo='siphu/basher/develop/Libraries'
+
+install()
+{
+	echo "installing $library"
+	source="https://raw.githubusercontent.com/$default_repo/$library"
+	wget $source -O- /tmp/basher_install | bash -s -- install
+}
+
+uninstall()
+{
+	echo "removing $library"
+	source="https://raw.githubusercontent.com/$default_repo/$library"
+	wget $source -O- /tmp/basher_install | bash -s -- remove
+}
+
+help()
+{
+	echo ""
+	echo "Usage: $basher install|remove pkg1 [pkg2 ...]"
+	echo ""
+	echo "$basher is a command line interface for retrieval of packages"
+	echo ""
+	echo "commands:"
+	echo "  install - Install new packages"
+	echo "  remove - Remove packages"
+}
+
+main()
+{
+	case "$command" in
+			-i | --install | install ) install ;;
+			-r | --remove | remove ) uninstall ;;
+			* ) help ;;
+	esac
+}
+
+main

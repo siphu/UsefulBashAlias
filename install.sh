@@ -1,52 +1,78 @@
-#!/bin/bash
-
-
-# location of where all the alias files will be stored
-destinationDir="$HOME/.sources"
-
-# pattern to determine if .alias link has been injected
-aliasPattern="if [ -f \$HOME/.alias ]; then . \$HOME/.alias; fi"
-
-# order of the rc file to inject loading of the alias
-rcFiles=(
-		"$HOME/.zshrc"
-		"$HOME/.bash_profile"
-		"$HOME/.bashrc"
-	  )
-
-
-# source alias folder from github repo
-sourceDir="https://raw.githubusercontent.com/siphu/UsefulBashAlias/main/sources"
-
-# alias file avaliable on the github repo
-files=(
-	"files"
-	"rsub"
-	)
+#!/bin/sh
+#####
+#
+# This script downloads basher and places it a new $PATH location
+# This can be ran via -
+#
+# wget -
+# 	source <(wget -O- https://raw.githubusercontent.com/siphu/basher/develop/install.sh)
+# Curl
+# 	source <(curl -fsSL https://raw.githubusercontent.com/siphu/basher/develop/install.sh)
 
 
 
-# clean out the folder and .alias file
-mkdir -p "$destinationDir"
-rm -rf $HOME/.alias
+#default settings
+destination="$HOME/.basher"   # folder where .basher will install to
+basher="$destination/basher"  # script name
+sourceGit="https://raw.githubusercontent.com/siphu/basher/develop" # source repo (raw content)
 
 
-for i in "${files[@]}"
-do
-	echo "Downloading: $i"
-	wget -q "$sourceDir/$i" -O "$destinationDir/$i"
-	echo ". $destinationDir/$i" >> $HOME/.alias
-done
+#testing purpose
+rm -rf "$destination"
 
 
-# inject calling of the .alias file
-for i in "${rcFiles[@]}"
-do
-	if [ -f $i ]; then
-		if [ `grep -Fq "$aliasPattern" $i > /dev/null; echo $?`  == 1 ];  then
-			echo -e "\n$aliasPattern\n" >> $i
-		fi
-		. $i #this doesnt work
-		break
+main() {
+
+	# create the folder
+	mkdir -p "$destination"
+
+	bashUrl="$sourceGit/bin/basher"
+	result=`wget -q -S --spider $bashUrl  2>&1`
+
+	if  validate_url $bashUrl; then
+		download_basher $bashUrl
+		inject_rc
+		echo "Basher installed at: $basher"
+	else
+		echo "ERROR: Unable to find basher source file"
+		exit 1
 	fi
-done
+
+
+}
+
+validate_url() {
+  if curl --output /dev/null --silent --head --fail "$1"
+  	then return 0
+	else return 1
+  fi
+}
+
+download_basher()
+{
+	wget -q "$1" -O "$basher"
+	chmod +x "$basher"
+}
+
+inject_rc()
+{
+	exportPath="export PATH=\$PATH:$destination"
+	rcFiles="$HOME/.zshrc $HOME/.bash_profile $HOME/.bashrc $HOME/.profile"
+
+	for i in $rcFiles
+	do
+		if [ -f $i ]; then
+			if ! grep -Fxq "$exportPath" $i
+			then
+				echo "$exportPath" >> $i
+				export PATH=$PATH:$destination
+			fi
+			break
+		fi
+	done
+
+
+}
+
+
+main

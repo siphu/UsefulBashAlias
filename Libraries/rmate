@@ -1,0 +1,25 @@
+if [[ $UID -ne 0 ]]; then
+  echo "Root Required for this script. Please rerun with sudo"
+  exit 1
+fi
+
+install()
+{
+  wget https://raw.githubusercontent.com/aurora/rmate/master/rmate -O /usr/bin/rmate
+  chmod +x /usr/bin/rmate
+  ln -s /usr/bin/rmate /usr/bin/rsub
+  exit 0
+}
+
+remove()
+{
+  rm -rf /usr/bin/rmate
+  rm -rf /usr/bin/rsub
+  exit 0
+}
+
+case "$1" in
+    install ) install ;;
+    remove ) remove ;;
+    * ) exit 1 ;;
+esac

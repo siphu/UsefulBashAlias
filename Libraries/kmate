@@ -1,0 +1,27 @@
+user="${SUDO_USER:-$USER}"
+home="$(eval echo ~$user)"
+
+install()
+{
+  if [ ! -f $home/.bash_aliases ]; then
+      touch $home/.bash_aliases
+      chown $user:$user $home/.bash_aliases
+  fi
+
+cat >> $home/.bash_aliases <<EOF
+alias kmate="sudo kill \$(sudo lsof -i tcp:52698 | sed -n '2,2 p' | awk '{print \$2}')"
+alias krsub="sudo kill \$(sudo lsof -i tcp:52698 | sed -n '2,2 p' | awk '{print \$2}')"
+EOF
+}
+
+remove()
+{
+  echo "nothing to remove"
+}
+
+case "$1" in
+    install ) install ;;
+    remove ) remove ;;
+    * ) exit 1 ;;
+esac
+
