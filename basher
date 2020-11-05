@@ -13,7 +13,7 @@ originalParameter=$@
 
 basher=`basename $0`
 
-default_repo='siphu/basher/develop/Libraries'
+default_repo='siphu/basher/master/Libraries'
 
 root_required()
 {
