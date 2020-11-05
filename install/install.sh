@@ -14,11 +14,7 @@
 #default settings
 destination="$HOME/.basher"   # folder where .basher will install to
 basher="$destination/basher"  # script name
-sourceGit="https://raw.githubusercontent.com/siphu/basher/develop" # source repo (raw content)
-
-
-#testing purpose
-rm -rf "$destination"
+sourceGit="https://raw.githubusercontent.com/siphu/basher/master" # source repo (raw content)
 
 
 main() {
