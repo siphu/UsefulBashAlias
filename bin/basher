@@ -1,29 +1,44 @@
 #!/bin/bash
 
-if [[ $UID -ne 0 ]]; then
-  sudo -p 'Restarting as root, password: ' bash $0 "$@"
-  exit $?
-fi
+# if [[ $UID -ne 0 ]]; then
+#  sudo -p 'Restarting as root, password: ' bash $0 "$@"
+#  exit $?
+# fi
 
 command=$1
 library=$2
+
+currentFile=$0
+originalParameter=$@
 
 basher=`basename $0`
 
 default_repo='siphu/basher/develop/Libraries'
 
+root_required()
+{
+  sudo -p '[sudo] Root Required: ' bash $currentFile $originalParameter
+  exit $?
+}
+
 install()
 {
 	echo "installing $library"
 	source="https://raw.githubusercontent.com/$default_repo/$library"
-	wget $source -O- /tmp/basher_install | bash -s -- install
+	wget --quiet $source -O- | bash -s -- install
+	if [[ $? == 7 ]]; then
+		root_required
+	fi
 }
 
 uninstall()
 {
 	echo "removing $library"
 	source="https://raw.githubusercontent.com/$default_repo/$library"
-	wget $source -O- /tmp/basher_install | bash -s -- remove
+	wget --quiet $source -O- | bash -s -- remove
+	if [[ $? == 7 ]]; then
+		root_required
+	fi
 }
 
 help()
