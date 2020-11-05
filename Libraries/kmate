@@ -9,8 +9,8 @@ install()
   fi
 
 cat >> $home/.bash_aliases <<EOF
-alias kmate="sudo kill \$(sudo lsof -i tcp:52698 | sed -n '2,2 p' | awk '{print \$2}')"
-alias krsub="sudo kill \$(sudo lsof -i tcp:52698 | sed -n '2,2 p' | awk '{print \$2}')"
+alias kmate="sudo kill \$(sudo lsof -i tcp:52698 | sed -n '2,2 p' | awk '{print $2}')"
+alias krsub="sudo kill \$(sudo lsof -i tcp:52698 | sed -n '2,2 p' | awk '{print $2}')"
 EOF
 }
 
