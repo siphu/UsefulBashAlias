@@ -1,6 +1,6 @@
 if [[ $UID -ne 0 ]]; then
-  echo "Root Required for this script. Please rerun with sudo"
-  exit 1
+  # root required.
+  exit 7
 fi
 
 install()
