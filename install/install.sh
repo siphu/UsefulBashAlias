@@ -22,7 +22,7 @@ main() {
 	# create the folder
 	mkdir -p "$destination"
 
-	bashUrl="$sourceGit/bin/basher"
+	bashUrl="$sourceGit/basher"
 	result=`wget -q -S --spider $bashUrl  2>&1`
 
 	if  validate_url $bashUrl; then
