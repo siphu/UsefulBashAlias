@@ -1,1 +1,25 @@
+user="${SUDO_USER:-$USER}"
+home="$(eval echo ~$user)"
+
+install()
+{
+  if [ ! -f $home/.bash_aliases ]; then
+      touch $home/.bash_aliases
+      chown $user:$user $home/.bash_aliases
+  fi
+
+cat >> $home/.bash_aliases <<EOF
 alias ll="ls -lh"
+EOF
+}
+
+remove()
+{
+  echo "nothing to remove"
+}
+
+case "$1" in
+    install ) install ;;
+    remove ) remove ;;
+    * ) exit 1 ;;
+esac
