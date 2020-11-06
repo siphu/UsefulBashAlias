@@ -4,13 +4,13 @@ basher="$destination/basher"
 
 install()
 {
-  wget --quiet $source -O $basher
+  wget -q "$source" -O "$basher"
   exit 0
 }
 
 remove()
 {
-  rm -rf $destination
+  rm -rf "$destination"
   exit 0
 }
 
