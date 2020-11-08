@@ -1,4 +1,4 @@
-source="https://raw.githubusercontent.com/siphu/basher/master/install.sh'
+source="https://raw.githubusercontent.com/siphu/basher/master/install.sh"
 destination="$HOME/.basher"
 basher="$destination/basher"
 
